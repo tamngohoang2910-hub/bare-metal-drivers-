@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "UART.h"
-#define uart_baud 115200
-#define SYSTEM_CLOCK  72000000UL
+#define APB1_CLOCK_HZ  36000000UL  
+#define APB2_CLOCK_HZ  72000000UL
 
 void uart_enable(USART_TypeDef *Uartx){
     if (Uartx ==0) 
@@ -13,6 +13,20 @@ void uart_disable(USART_TypeDef *Uartx){
     return;
     Uartx -> CR1 &= ~(1<<13); //xóa bit UE
 }
+
+// baudrate
+void uart_set_baudrate(USART_TypeDef *Uartx,uint32_t baudrate, uint32_t pclk){
+    uint32_t usart_div = ((25*pclk)/(4*baudrate));
+    uint32_t mantissa = usart_div / 100;
+    uint32_t fraction = usart_div % 100;
+    fraction = (fraction*16 +50)/100;
+    if (fraction >=16){
+        mantissa++;
+        fraction=0;
+    }
+    Uartx ->BRR = (mantissa<<4)|fraction;
+}
+
 void uart_init (USART_TypeDef *Uartx,USART_Config *USART_Conf){
     if (Uartx==0 || USART_Conf==0 ){
         return;
@@ -39,6 +53,15 @@ void uart_init (USART_TypeDef *Uartx,USART_Config *USART_Conf){
         Uartx->CR1 &= ~USART_CR1_PCE;
     }
 
+    //setbaudrate 
+    uint32_t pclk;
+    if (Uartx == USART1){
+        pclk =  APB2_CLOCK_HZ;
+    }else{
+        pclk = APB1_CLOCK_HZ;
+    }
+    uart_set_baudrate (Uartx, USART_Conf -> baudrate, pclk);
+    
     //stop bit
     Uartx -> CR2 &= ~ USART_CR2_STOP;
     Uartx -> CR2 |= (uint32_t)(USART_Conf -> stop_bit <<12);

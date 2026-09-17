@@ -1,9 +1,17 @@
 #ifndef USART_H
 #define USART_H
 #include <stdint.h>
-#define USART1 ((USART_TypeDef*)0x40013800UL)
-#define USART2 ((USART_TypeDef*)0x40004400UL)
-#define USART3 ((USART_TypeDef*)0x40004800UL)
+
+#define APB2PERIPH_BASE  0x40010000UL
+#define APB1PERIPH_BASE  0x40000000UL
+
+#define USART1_BASE (APB2PERIPH_BASE + 0x3800UL)   
+#define USART2_BASE (APB1PERIPH_BASE + 0x4400UL)   
+#define USART3_BASE (APB1PERIPH_BASE + 0x4800UL)   
+
+#define USART1 ((USART_TypeDef *) USART1_BASE)
+#define USART2 ((USART_TypeDef *) USART2_BASE)
+#define USART3 ((USART_TypeDef *) USART3_BASE)
 
 #define USART_CR1_UE   (1U << 13)
 #define USART_CR1_TE   (1U << 3)
