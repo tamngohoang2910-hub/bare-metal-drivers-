@@ -71,5 +71,5 @@ typedef struct {
 void uart_init(USART_TypeDef *Uartx, const USART_Config *conf);
 void uart_enable (USART_TypeDef *Uartx);
 void uart_disable (USART_TypeDef *Uartx);
-
+void uart_set_baudrate(USART_TypeDef *Uartx,uint32_t baudrate, uint32_t pclk);
 #endif

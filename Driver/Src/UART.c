@@ -27,7 +27,7 @@ void uart_set_baudrate(USART_TypeDef *Uartx,uint32_t baudrate, uint32_t pclk){
     Uartx ->BRR = (mantissa<<4)|fraction;
 }
 
-void uart_init (USART_TypeDef *Uartx,USART_Config *USART_Conf){
+void uart_init (USART_TypeDef *Uartx, USART_Config *USART_Conf){
     if (Uartx==0 || USART_Conf==0 ){
         return;
     }
@@ -61,7 +61,7 @@ void uart_init (USART_TypeDef *Uartx,USART_Config *USART_Conf){
         pclk = APB1_CLOCK_HZ;
     }
     uart_set_baudrate (Uartx, USART_Conf -> baudrate, pclk);
-    
+
     //stop bit
     Uartx -> CR2 &= ~ USART_CR2_STOP;
     Uartx -> CR2 |= (uint32_t)(USART_Conf -> stop_bit <<12);
