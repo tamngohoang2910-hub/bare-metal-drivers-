@@ -54,10 +54,10 @@ typedef enum{
 }USART_PARITY_t;
 
 typedef enum{
-    uart_stop_bit_1=0,
-    uart_stop_bit_0_5=1,
-    uart_stop_bit_2=2,
-    uart_stop_bit_1_5=3
+    uart_stop_bit_1=0b00,
+    uart_stop_bit_0_5=0b01,
+    uart_stop_bit_2=0b10,
+    uart_stop_bit_1_5=0b11
 }USART_STOP_BIT_t;
 
 typedef struct {
@@ -74,4 +74,5 @@ void uart_disable (USART_TypeDef *Uartx);
 void uart_set_baudrate(USART_TypeDef *Uartx,uint32_t baudrate, uint32_t pclk);
 void uart_send(USART_TypeDef *Uartx, uint8_t data);
 uint8_t uart_receive(USART_TypeDef *Uartx);
+
 #endif
