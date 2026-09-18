@@ -38,7 +38,7 @@ typedef struct{
 typedef enum{
     uart_tx=USART_CR1_TE,
     uart_rx= USART_CR1_RE,
-    uart_tx_and_rx = (USART_CR1_TE| USART_CR1_TE)
+    uart_tx_and_rx = (USART_CR1_RE| USART_CR1_TE)
 }USART_MODE_t;
 
 
@@ -57,7 +57,7 @@ typedef enum{
     uart_stop_bit_1=0,
     uart_stop_bit_0_5=1,
     uart_stop_bit_2=2,
-    uart_stop_bit_1_2=3
+    uart_stop_bit_1_5=3
 }USART_STOP_BIT_t;
 
 typedef struct {
@@ -68,8 +68,10 @@ typedef struct {
     USART_STOP_BIT_t stop_bit;
 }USART_Config;
 
-void uart_init(USART_TypeDef *Uartx, const USART_Config *conf);
+void uart_init(USART_TypeDef *Uartx, const USART_Config *Conf);
 void uart_enable (USART_TypeDef *Uartx);
 void uart_disable (USART_TypeDef *Uartx);
 void uart_set_baudrate(USART_TypeDef *Uartx,uint32_t baudrate, uint32_t pclk);
+void uart_send(USART_TypeDef *Uartx, uint8_t data);
+uint8_t uart_receive(USART_TypeDef *Uartx);
 #endif

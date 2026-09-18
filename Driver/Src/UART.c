@@ -27,11 +27,11 @@ void uart_set_baudrate(USART_TypeDef *Uartx,uint32_t baudrate, uint32_t pclk){
     Uartx ->BRR = (mantissa<<4)|fraction;
 }
 
-void uart_init (USART_TypeDef *Uartx, USART_Config *USART_Conf){
+void uart_init (USART_TypeDef *Uartx, const USART_Config *USART_Conf){
     if (Uartx==0 || USART_Conf==0 ){
         return;
     }
-    Uartx-> CR1 |= (1<< 13);// tắt trước khi cấu hình
+    Uartx-> CR1 &= ~(1<< 13);// tắt trước khi cấu hình
 
     //số bit 
     if (USART_Conf -> length == uart_word_length_9_bit){
@@ -72,11 +72,11 @@ void uart_init (USART_TypeDef *Uartx, USART_Config *USART_Conf){
 }
 void uart_send(USART_TypeDef* Uartx, uint8_t data){
     if (Uartx==0) return;
-    while (!(USART1 -> SR & USART_SR_TXE));
-    USART1 -> DR =data;
+    while (!(Uartx-> SR & USART_SR_TXE));
+    Uartx -> DR =data;
 }
-void uart_receive(USART_TypeDef* Uartx){
+uint8_t uart_receive(USART_TypeDef* Uartx){
     if (Uartx==0) return;
-    while (!(USART1-> SR & USART_SR_TXE));
-    return (uint8_t)(USART1-> DR & 0XFF);
+    while (!(Uartx-> SR & USART_SR_RXNE));
+    return (uint8_t)(Uartx-> DR & 0XFF);
 }
