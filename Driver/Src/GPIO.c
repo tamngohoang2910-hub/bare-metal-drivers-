@@ -1,5 +1,6 @@
-#include "GPIO.h"
 #include <stdint.h>
+#include "GPIO.h"
+
 
 void GPIO_Init(MyGPIO_TypeDef *port, uint8_t pin, GPIO_Mode_t mode)
 {
